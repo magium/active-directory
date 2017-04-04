@@ -1,0 +1,12 @@
+{
+  "name": "magium/active-directory",
+  "description": "Provides connectivity to Active Directory implementations",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Kevin Schroeder",
+      "email": "kschroeder@magiumlib.com"
+    }
+  ]
+}
