@@ -2,7 +2,7 @@
   "name": "magium/active-directory",
   "description": "Provides connectivity to Active Directory implementations",
   "minimum-stability": "stable",
-  "license": "proprietary",
+  "license": "Apache-2",
   "authors": [
     {
       "name": "Kevin Schroeder",
