@@ -13,6 +13,8 @@ There are two purposes (well, three) for library.
 
 First, watch the [installation video on YouTube](https://www.youtube.com/watch?v=9FupzL2XsqA).  It shows you how to create an application in Azure Active Directory.
 
+**Note** Azure will not redirect from a secure URL (i.e. their login page) to an unsecure page (i.e. your page).  No HTTPS to HTTP in other words.  In yet other words, if you use Azure you will need to also use HTTPS.  Though there are worse things in the world... like *not* using HTTPS.
+
 ## Basic Usage
 
 Anywhere in your application that requires authentication you can provide this code (properly architected, not cut and paste, in other words):
@@ -58,7 +60,7 @@ Done.
 
 ## Configuration
 
-This is a little more in-depth, but it should be overly complex.
+This is a little more in-depth, but it shouldn't be overly complex.
 
 The base configuration is managed by the [Magium Configuration Manager](https://www.github.com/magium/configuration-manager), out of the box.  But, that said, the MCM has a really simple mechanism that allows you to not use the underlying plumbing.  I believe that the underlying plumbing will eventually make application management easier, but I'm not going to force it on you.
 
