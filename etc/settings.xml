@@ -1,6 +1,10 @@
 <magiumConfiguration xmlns="http://www.magiumlib.com/Configuration">
     <section identifier="magium" label="Magium">
         <group identifier="ad" label="Active Directory">
+            <element identifier="enabled" label="Enabled" type="select" source="Magium\Configuration\Source\Switches\YesNo">
+                <description>Is the Magium Active Directory integration enabled?</description>
+                <value>yes</value>
+            </element>
             <element identifier="client_id" label="Client ID">
                 <description>You need to configure an application in Active Directory and enter its ID here</description>
             </element>

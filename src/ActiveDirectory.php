@@ -19,6 +19,7 @@ class ActiveDirectory
 
     const CONFIG_CLIENT_ID      = 'magium/ad/client_id';
     const CONFIG_CLIENT_SECRET  = 'magium/ad/client_secret';
+    const CONFIG_ENABLED        = 'magium/ad/enabled';
 
     const SESSION_KEY = '__MAGIUM_AD';
 
@@ -71,6 +72,11 @@ class ActiveDirectory
         return $this->request;
     }
 
+    public function isEnabled()
+    {
+        return $this->config->getValueFlag(self::CONFIG_ENABLED);
+    }
+
     public function forget()
     {
         if (isset($_SESSION[self::SESSION_KEY])) {
@@ -85,6 +91,9 @@ class ActiveDirectory
 
     public function authenticate()
     {
+        if (!$this->isEnabled()) {
+            throw new InvalidRequestException('Do not authenticate if the Active Directory integration is not enabled');
+        }
         if (session_status() !== PHP_SESSION_ACTIVE) {
             throw new InvalidRequestException('The PHP session must be started prior to authenticating');
         }
