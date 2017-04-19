@@ -8,7 +8,8 @@ $config = [
     'magium' => [
         'ad' => [
             'client_id' => '',
-            'client_secret' => ''
+            'client_secret' => '',
+            'enabled' => 'yes'
         ]
     ]
 ];

@@ -126,7 +126,8 @@ $config = [
     'magium' => [
         'ad' => [
             'client_id' => '<my client id>',
-            'client_secret' => '<my client secret>'
+            'client_secret' => '<my client secret>',
+            'enabled' => 'yes'
         ]
     ]
 ];
@@ -153,8 +154,9 @@ Pretty much the same, but rather than using the `ArrayConfigurationRepository` y
 $yaml = <<<YAML
 magium:
     ad:
-        client_id: value
-        client_secret: value
+        client_id: <value>
+        client_secret: <value>
+        enabled: yes
 YAML;
 
 $obj = new YamlConfigurationRepository(trim($yaml));
@@ -174,8 +176,9 @@ Pretty much the same, but rather than using the `YamlConfigurationRepository` yo
         {
             "magium": {
                 "ad": {
-                    "client_id": "value"
-                    "client_secret": "value"
+                    "client_id": "<value>"
+                    "client_secret": "<value>",
+                    "enabled": "yes"
                 }
             }
         }
@@ -195,8 +198,9 @@ Pretty much the same, but rather than using the `JsonConfigurationRepository` yo
 ```
 $ini = <<<INI
 [magium]
-ad[client_id] = value
-ad[client_srcret] = value
+ad[client_id] = <value>
+ad[client_srcret] = <value>
+ad[enabled] = yes
 INI;
 
 $obj = new IniConfigurationRepository(trim($ini));
