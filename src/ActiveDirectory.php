@@ -20,6 +20,7 @@ class ActiveDirectory
     const CONFIG_CLIENT_ID      = 'magium/ad/client_id';
     const CONFIG_CLIENT_SECRET  = 'magium/ad/client_secret';
     const CONFIG_ENABLED        = 'magium/ad/enabled';
+    const CONFIG_REMAP_HTTPS    = 'magium/ad/remap_https';
 
     const SESSION_KEY = '__MAGIUM_AD';
 
@@ -134,7 +135,12 @@ class ActiveDirectory
     public function getDefaultReturnUrl(ServerRequestInterface $request)
     {
         $uri = new Uri();
-        $uri->setScheme($request->getUri()->getScheme());
+        if ($request->getUri()->getHost() != 'localhost'
+            && $this->config->getValueFlag(self::CONFIG_REMAP_HTTPS)) {
+            $uri->setScheme('https');
+        } else {
+            $uri->setScheme($request->getUri()->getScheme());
+        }
         $uri->setHost($request->getUri()->getHost());
         $uri->setPath($request->getUri()->getPath());
         $uri->setPort($request->getUri()->getPort());
