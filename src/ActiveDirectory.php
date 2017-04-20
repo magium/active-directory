@@ -116,6 +116,11 @@ class ActiveDirectory
         throw new InvalidRequestException('Could not understand the request');
     }
 
+    public function setReturnUrl($url)
+    {
+        $this->returnUrl = (string)$url;
+    }
+
     public function getReturnUrl(ServerRequestInterface $request)
     {
         if ($this->returnUrl === null) {
