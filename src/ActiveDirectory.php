@@ -118,7 +118,14 @@ class ActiveDirectory
 
     public function setReturnUrl($url)
     {
-        $this->returnUrl = (string)$url;
+        $uri = new Uri((string)$url);
+        $this->returnUrl = $this->rewriteUrl(
+            $uri->getScheme(),
+            $uri->getHost(),
+            $uri->getPath(),
+            $uri->getPort(),
+            $uri->getQuery()
+        );
     }
 
     public function getReturnUrl(ServerRequestInterface $request)
@@ -137,19 +144,26 @@ class ActiveDirectory
         return $this->endpointConfig;
     }
 
-    public function getDefaultReturnUrl(ServerRequestInterface $request)
+    private function rewriteUrl($scheme, $host, $path, $port, $query)
     {
         $uri = new Uri();
-        if ($request->getUri()->getHost() != 'localhost'
+        if ($host != 'localhost'
             && $this->config->getValueFlag(self::CONFIG_REMAP_HTTPS)) {
             $uri->setScheme('https');
         } else {
-            $uri->setScheme($request->getUri()->getScheme());
+            $uri->setScheme($scheme);
         }
-        $uri->setHost($request->getUri()->getHost());
-        $uri->setPath($request->getUri()->getPath());
-        $uri->setPort($request->getUri()->getPort());
+        $uri->setHost($host);
+        $uri->setPath($path);
+        $uri->setPort($port);
+        $uri->setQuery($query);
         return $uri->toString();
+    }
+
+    public function getDefaultReturnUrl(ServerRequestInterface $request)
+    {
+        $uri = $request->getUri();
+        return $this->rewriteUrl($uri->getScheme(), $uri->getHost(), $uri->getPath(), $uri->getPort(), $uri->getQuery());
     }
 
 }
