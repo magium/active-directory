@@ -40,4 +40,8 @@ class Entity
         return $this->preferred_username;
     }
 
+    public function getData()
+    {
+        return $this->data;
+    }
 }
