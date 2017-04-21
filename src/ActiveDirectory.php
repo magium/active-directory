@@ -111,7 +111,9 @@ class ActiveDirectory
         } else if ($request->getMethod() == 'GET' && !isset($params['code'])) {
             (new Authorize($this->getProvider(), $this->getResponse()))->execute();
         } else if ($request->getMethod() == 'GET' && isset($params['code'])) {
-            return (new Receive($this->getRequest(), $this->getProvider()))->execute();
+            $entity = (new Receive($this->getRequest(), $this->getProvider()))->execute();
+            $_SESSION[self::SESSION_KEY]['entity'] = $entity;
+            return $entity;
         }
         throw new InvalidRequestException('Could not understand the request');
     }
