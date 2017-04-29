@@ -51,6 +51,54 @@ class ActiveDirectory
         $this->endpointConfig = $endpointConfig;
     }
 
+    /**
+     * @param ConfigInterface $config
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     */
+    public function setRequest($request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
+    }
+
+    /**
+     * @param string $scopes
+     */
+    public function setScopes($scopes)
+    {
+        $this->scopes = $scopes;
+    }
+
+    /**
+     * @param EndpointConfig $endpointConfig
+     */
+    public function setEndpointConfig($endpointConfig)
+    {
+        $this->endpointConfig = $endpointConfig;
+    }
+
+    /**
+     * @param AbstractProvider $oauthProvider
+     */
+    public function setOauthProvider($oauthProvider)
+    {
+        $this->oauthProvider = $oauthProvider;
+    }
+
     public function getProvider()
     {
         if (!$this->oauthProvider instanceof AbstractProvider) {
