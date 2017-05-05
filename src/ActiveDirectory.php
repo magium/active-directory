@@ -17,10 +17,11 @@ use Zend\Uri\Uri;
 class ActiveDirectory
 {
 
-    const CONFIG_CLIENT_ID      = 'magium/ad/client_id';
-    const CONFIG_CLIENT_SECRET  = 'magium/ad/client_secret';
-    const CONFIG_ENABLED        = 'magium/ad/enabled';
-    const CONFIG_REMAP_HTTPS    = 'magium/ad/remap_https';
+    const CONFIG_CLIENT_ID      = 'authentication/ad/client_id';
+    const CONFIG_CLIENT_SECRET  = 'authentication/ad/client_secret';
+    const CONFIG_ENABLED        = 'authentication/ad/enabled';
+    const CONFIG_RETURN_URL     = 'authentication/ad/return_url';
+    const CONFIG_REMAP_HTTPS    = 'authentication/ad/remap_https';
 
     const SESSION_KEY = '__MAGIUM_AD';
 
@@ -49,6 +50,59 @@ class ActiveDirectory
         $this->response = $response;
         $this->oauthProvider = $oauthProvider;
         $this->endpointConfig = $endpointConfig;
+    }
+
+    /**
+     * @param ConfigInterface $config
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     */
+    public function setRequest($request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
+    }
+
+    /**
+     * @param string $scopes
+     */
+    public function setScopes($scopes)
+    {
+        $this->scopes = $scopes;
+    }
+
+    /**
+     * @param EndpointConfig $endpointConfig
+     */
+    public function setEndpointConfig($endpointConfig)
+    {
+        $this->endpointConfig = $endpointConfig;
+    }
+
+    /**
+     * @param AbstractProvider $oauthProvider
+     */
+    public function setOauthProvider($oauthProvider)
+    {
+        $this->oauthProvider = $oauthProvider;
     }
 
     public function getProvider()
@@ -111,7 +165,9 @@ class ActiveDirectory
         } else if ($request->getMethod() == 'GET' && !isset($params['code'])) {
             (new Authorize($this->getProvider(), $this->getResponse()))->execute();
         } else if ($request->getMethod() == 'GET' && isset($params['code'])) {
-            return (new Receive($this->getRequest(), $this->getProvider()))->execute();
+            $entity = (new Receive($this->getRequest(), $this->getProvider()))->execute();
+            $_SESSION[self::SESSION_KEY]['entity'] = $entity;
+            return $entity;
         }
         throw new InvalidRequestException('Could not understand the request');
     }
@@ -131,7 +187,12 @@ class ActiveDirectory
     public function getReturnUrl(ServerRequestInterface $request)
     {
         if ($this->returnUrl === null) {
-            $this->returnUrl = $this->getDefaultReturnUrl($request);
+            $configReturnUrl = $this->getConfig()->getValue(self::CONFIG_RETURN_URL);
+            if ($configReturnUrl) {
+                $this->returnUrl = $configReturnUrl;
+            } else {
+                $this->returnUrl = $this->getDefaultReturnUrl($request);
+            }
         }
         return $this->returnUrl;
     }
