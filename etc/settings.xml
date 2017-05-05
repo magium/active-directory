@@ -1,5 +1,5 @@
 <magiumConfiguration xmlns="http://www.magiumlib.com/Configuration">
-    <section identifier="magium" label="Magium">
+    <section identifier="authentication" label="Authentication">
         <group identifier="ad" label="Active Directory">
             <element identifier="enabled" label="Enabled" type="select" source="Magium\Configuration\Source\Switches\YesNo">
                 <description>Is the Magium Active Directory integration enabled?</description>

@@ -17,10 +17,10 @@ use Zend\Uri\Uri;
 class ActiveDirectory
 {
 
-    const CONFIG_CLIENT_ID      = 'magium/ad/client_id';
-    const CONFIG_CLIENT_SECRET  = 'magium/ad/client_secret';
-    const CONFIG_ENABLED        = 'magium/ad/enabled';
-    const CONFIG_REMAP_HTTPS    = 'magium/ad/remap_https';
+    const CONFIG_CLIENT_ID      = 'authentication/ad/client_id';
+    const CONFIG_CLIENT_SECRET  = 'authentication/ad/client_secret';
+    const CONFIG_ENABLED        = 'authentication/ad/enabled';
+    const CONFIG_REMAP_HTTPS    = 'authentication/ad/remap_https';
 
     const SESSION_KEY = '__MAGIUM_AD';
 
