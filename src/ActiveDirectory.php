@@ -20,6 +20,7 @@ class ActiveDirectory
     const CONFIG_CLIENT_ID      = 'authentication/ad/client_id';
     const CONFIG_CLIENT_SECRET  = 'authentication/ad/client_secret';
     const CONFIG_ENABLED        = 'authentication/ad/enabled';
+    const CONFIG_RETURN_URL     = 'authentication/ad/return_url';
     const CONFIG_REMAP_HTTPS    = 'authentication/ad/remap_https';
 
     const SESSION_KEY = '__MAGIUM_AD';
@@ -57,6 +58,11 @@ class ActiveDirectory
     public function setConfig($config)
     {
         $this->config = $config;
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
@@ -181,7 +187,12 @@ class ActiveDirectory
     public function getReturnUrl(ServerRequestInterface $request)
     {
         if ($this->returnUrl === null) {
-            $this->returnUrl = $this->getDefaultReturnUrl($request);
+            $configReturnUrl = $this->getConfig()->getValue(self::CONFIG_RETURN_URL);
+            if ($configReturnUrl) {
+                $this->returnUrl = $configReturnUrl;
+            } else {
+                $this->returnUrl = $this->getDefaultReturnUrl($request);
+            }
         }
         return $this->returnUrl;
     }

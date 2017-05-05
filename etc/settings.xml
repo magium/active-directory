@@ -11,6 +11,9 @@
             <element identifier="client_secret" label="Client Secret">
                 <description>When you created an application in Active Directory you should have received a one-time use key.  Enter that here.  </description>
             </element>
+            <element identifier="return_url" label="Return URL">
+                <description>This is the URL you want Active Directory to redirect back to after authentication.</description>
+            </element>
             <element identifier="remap_https" label="Remap HTTPS" type="select" source="Magium\Configuration\Source\Switches\YesNo">
                 <description>Should the system remap HTTP-based URLs to HTTPS.  Azure Active Directory generally will not redirect to a non-secure URL.  Enabling this setting protects against that.</description>
                 <value>yes</value>
