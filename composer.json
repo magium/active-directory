@@ -23,7 +23,7 @@
     "magium/magium": "~1.1"
   },
   "require": {
-    "magium/configuration-manager": "^1",
+    "magium/configuration-manager": "^1.0.1",
     "league/oauth2-client": "^1.4",
     "microsoft/microsoft-graph": "^0.1"
   }
