@@ -141,6 +141,9 @@ class ActiveDirectory
 
     public function getResponse()
     {
+        if (!$this->response instanceof ResponseInterface) {
+            $this->response = new Response();
+        }
         return $this->response;
     }
 
