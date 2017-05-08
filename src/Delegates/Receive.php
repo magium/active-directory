@@ -9,6 +9,7 @@ use Magium\ActiveDirectory\InvalidRequestException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Http\Header\Location;
+use Zend\Http\PhpEnvironment\Response;
 use Zend\Psr7Bridge\Psr7Response;
 
 class Receive
@@ -95,7 +96,7 @@ class Receive
 
         $response = $this->getResponse();
         if ($response instanceof ResponseInterface) {
-            $response = Psr7Response::toZend($response);
+            $response = new Response(Psr7Response::toZend($response));
         }
         $location = (new Location())->setUri($this->getReturnUrl());
         $response->getHeaders()->addHeader($location);
