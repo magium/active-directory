@@ -163,11 +163,17 @@ class ActiveDirectory
         if ($request->getMethod() == 'GET' && isset($params['error'])) {
             throw new ClientException($params['error_description']);
         } else if ($request->getMethod() == 'GET' && !isset($params['code'])) {
-            (new Authorize($this->getProvider(), $this->getResponse()))->execute();
+            (new Authorize(
+                $this->getProvider(),
+                $this->getResponse()
+            ))->execute();
         } else if ($request->getMethod() == 'GET' && isset($params['code'])) {
-            $entity = (new Receive($this->getRequest(), $this->getProvider()))->execute();
-            $_SESSION[self::SESSION_KEY]['entity'] = $entity;
-            return $entity;
+            (new Receive(
+                $this->getRequest(),
+                $this->getProvider(),
+                $this->getResponse(),
+                $this->getReturnUrl($request)
+            ))->execute();
         }
         throw new InvalidRequestException('Could not understand the request');
     }
