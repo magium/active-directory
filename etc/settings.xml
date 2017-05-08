@@ -1,9 +1,9 @@
 <magiumConfiguration xmlns="http://www.magiumlib.com/Configuration">
-    <section identifier="authentication" label="Authentication">
+    <section identifier="authentication" label="Authentication" font-awesome="lock">
         <group identifier="ad" label="Active Directory">
-            <element identifier="enabled" label="Enabled" type="select" source="Magium\Configuration\Source\Switches\YesNo">
+            <element identifier="enabled" label="Enabled" type="select" source="Magium\Configuration\Source\Switches\EnableDisable">
                 <description>Is the Magium Active Directory integration enabled?</description>
-                <value>yes</value>
+                <value>0</value>
             </element>
             <element identifier="client_id" label="Client ID">
                 <description>You need to configure an application in Active Directory and enter its ID here</description>
@@ -16,7 +16,7 @@
             </element>
             <element identifier="remap_https" label="Remap HTTPS" type="select" source="Magium\Configuration\Source\Switches\YesNo">
                 <description>Should the system remap HTTP-based URLs to HTTPS.  Azure Active Directory generally will not redirect to a non-secure URL.  Enabling this setting protects against that.</description>
-                <value>yes</value>
+                <value>1</value>
             </element>
         </group>
     </section>
