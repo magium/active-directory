@@ -142,7 +142,7 @@ class ActiveDirectory
     public function getResponse()
     {
         if (!$this->response instanceof ResponseInterface) {
-            $this->response = new Response();
+            $this->response = Psr7Response::fromZend(new Response());
         }
         return $this->response;
     }
