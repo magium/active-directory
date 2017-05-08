@@ -6,27 +6,67 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use Magium\ActiveDirectory\ActiveDirectory;
 use Magium\ActiveDirectory\Entity;
 use Magium\ActiveDirectory\InvalidRequestException;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\Http\Header\Location;
+use Zend\Psr7Bridge\Psr7Response;
 
 class Receive
 {
 
     protected $provider;
     protected $request;
+    protected $response;
+    protected $returnUrl;
 
     public function __construct(
         ServerRequestInterface $request,
-        AbstractProvider $provider
+        AbstractProvider $provider,
+        ResponseInterface $response,
+        $returnUrl
     )
     {
         $this->request = $request;
         $this->provider = $provider;
+        $this->response = $response;
+        $this->returnUrl = $returnUrl;
     }
 
+    /**
+     * @return AbstractProvider
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
+     * @return ServerRequestInterface
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReturnUrl()
+    {
+        return $this->returnUrl;
+    }
 
     public function execute()
     {
-        $params = $this->request->getQueryParams();
+        $params = $this->getRequest()->getQueryParams();
         if (
             !isset($_SESSION[ActiveDirectory::SESSION_KEY]['state'])
             || empty($params['state'])
@@ -36,7 +76,7 @@ class Receive
             throw new InvalidRequestException('Request state did not match');
         }
         // Get an access token using the authorization code grant
-        $accessToken = $this->provider->getAccessToken('authorization_code', [
+        $accessToken = $this->getProvider()->getAccessToken('authorization_code', [
             'code' => $params['code']
         ]);
 
@@ -51,7 +91,17 @@ class Receive
         $data = $jsonAccessTokenPayload;
         $data['access_token'] = $accessToken->getToken();
         $entity = new Entity($data);
-        return $entity;
+        $_SESSION[ActiveDirectory::SESSION_KEY]['entity'] = $entity;
+
+        $response = $this->getResponse();
+        if ($response instanceof ResponseInterface) {
+            $response = Psr7Response::toZend($response);
+        }
+        $location = (new Location())->setUri($this->getReturnUrl());
+        $response->getHeaders()->addHeader($location);
+        $response->setStatusCode(302);
+        $response->sendHeaders();
+        exit;
     }
 
 }
