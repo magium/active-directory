@@ -36,9 +36,9 @@ class ActiveDirectory
     public function __construct(
         ConfigInterface $config,
         ServerRequestInterface $request,
+        ResponseInterface $response = null,
         $returnUrl = null,
         $scopes = 'profile openid email offline_access User.Read',
-        ResponseInterface $response = null,
         AbstractProvider $oauthProvider = null,
         EndpointConfig $endpointConfig = null
     )
