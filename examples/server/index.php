@@ -7,10 +7,10 @@ session_start();
 $config = [
     'authentication' => [
         'ad' => [
-            'client_id' => '0d629fa2-f1d7-446c-a5ec-88aecbcc2801',
-            'client_secret' => 'uQkhr2W6iYtiBCrkD8yhw0A',
+            'client_id' => '',
+            'client_secret' => '',
             'enabled' => '1',
-            'directory' => '74d24007-d458-483a-9d96-de05952da2d8'
+            'directory' => ''
         ]
     ]
 ];
