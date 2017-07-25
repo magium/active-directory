@@ -11,6 +11,10 @@
             <element identifier="client_secret" label="Client Secret">
                 <description>When you created an application in Active Directory you should have received a one-time use key.  Enter that here.  </description>
             </element>
+            <element identifier="directory" label="Directory">
+                <description>Provide a directory ID if you are using your own Azure instance instead of Microsoft's global database.  The directory ID is usually found under the directory properties.</description>
+                <value>common</value>
+            </element>
             <element identifier="return_url" label="Return URL">
                 <description>This is the URL you want Active Directory to redirect back to after authentication.</description>
             </element>

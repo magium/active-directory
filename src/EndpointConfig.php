@@ -7,17 +7,20 @@ class EndpointConfig
 
     protected $authorityUrl;
     protected $authorizeEndpoint;
+    protected $application;
     protected $tokenEndpoint;
     protected $resourceId;
 
     public function __construct(
-        $authorityUrl = 'https://login.microsoftonline.com/common',
+        $application = 'common',
+        $authorityUrl = 'https://login.microsoftonline.com/',
         $authorizeEndpoint = '/oauth2/v2.0/authorize',
         $tokenEndpoint = '/oauth2/v2.0/token',
         $resourceId = 'https://graph.microsoft.com'
         )
     {
         $this->authorityUrl = $authorityUrl;
+        $this->application = $application;
         $this->authorizeEndpoint = $authorizeEndpoint;
         $this->tokenEndpoint = $tokenEndpoint;
         $this->resourceId = $resourceId;
@@ -28,7 +31,7 @@ class EndpointConfig
      */
     public function getAuthorityUrl()
     {
-        return $this->authorityUrl;
+        return $this->authorityUrl . $this->application;
     }
 
     /**

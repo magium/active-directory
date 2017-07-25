@@ -22,6 +22,7 @@ class ActiveDirectory
     const CONFIG_ENABLED        = 'authentication/ad/enabled';
     const CONFIG_RETURN_URL     = 'authentication/ad/return_url';
     const CONFIG_REMAP_HTTPS    = 'authentication/ad/remap_https';
+    const CONFIG_TENANT         = 'authentication/ad/directory';
 
     const SESSION_KEY = '__MAGIUM_AD';
 
@@ -36,9 +37,9 @@ class ActiveDirectory
     public function __construct(
         ConfigInterface $config,
         ServerRequestInterface $request,
+        ResponseInterface $response = null,
         $returnUrl = null,
         $scopes = 'profile openid email offline_access User.Read',
-        ResponseInterface $response = null,
         AbstractProvider $oauthProvider = null,
         EndpointConfig $endpointConfig = null
     )
@@ -209,7 +210,12 @@ class ActiveDirectory
     public function getEndpointConfig()
     {
         if (!$this->endpointConfig instanceof EndpointConfig) {
-            $this->endpointConfig = new EndpointConfig();
+            $tenant = $this->getConfig()->getValue(self::CONFIG_TENANT);
+            if ($tenant) {
+                $this->endpointConfig = new EndpointConfig($tenant);
+            } else {
+                $this->endpointConfig = new EndpointConfig();
+            }
         }
         return $this->endpointConfig;
     }
