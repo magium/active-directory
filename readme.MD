@@ -88,11 +88,25 @@ First, in your application root directory run `vendor/bin/magium magium:configur
 
 ```
 Valid configuration keys
-magium/ad/client_id
+authentication/ad/enabled (default: 0)
+        (Is the Magium Active Directory integration enabled?)
+
+authentication/ad/client_id
         (You need to configure an application in Active Directory and enter its ID here)
 
-magium/ad/client_secret
-        (When you created an application in Active Directory you should have received a one-time use key.  Enter that here.)
+authentication/ad/client_secret
+        (When you created an application in Active Directory you should have received a one-time use key.  Enter that here.  )
+
+authentication/ad/directory (default: common)
+        (Provide a directory ID if you are using your own Azure instance instead of Microsoft's global database.  The directory ID is usually found under the directory properties.)
+
+authentication/ad/return_url
+        (This is the URL you want Active Directory to redirect back to after authentication.)
+
+authentication/ad/remap_https (default: 1)
+        (Should the system remap HTTP-based URLs to HTTPS.  Azure Active Directory generally will not redirect to a non-secure URL.  Enabling this setting protects against that.)
+
+
 ```
 
 You will need to provide those two values for the configuration:
@@ -114,6 +128,8 @@ Building context: development
 
 And you should be good to go.
 
+**Achtung!!!**  The defaults for the adapter will allow *anyone* with a Microsoft ID to access your system, kind of like allowing any Twitter user access your system if they have a valid Twitter account.  If you are looking to authenticate against your own Active Directory instance make sure you provide the Directory ID for the directory you will to validate against.  All of the following examples include the directory configuration key, whose default is "common".  Make sure you are authenticating not just against the correct application with the client_id, but also the correct directory with the directory key.
+
 ### Configuration using PHP Arrays
 
 Now, I know the MCM is new and you probably aren't using it.  That's why I provided a way for you configure the adapter without using the full-blown MCM.  You can use the `Magium\Configuration\Config\Repository\ArrayConfigurationRepository` class to provide a raw array that will be mapped to the two configuration settings `magium/ad/client_id` and `magium/ad/client_secret`
@@ -127,7 +143,8 @@ $config = [
         'ad' => [
             'client_id' => '<my client id>',
             'client_secret' => '<my client secret>',
-            'enabled' => 'yes'
+            'enabled' => 'yes',
+            'directory' => '<common or directory ID>'
         ]
     ]
 ];
@@ -157,6 +174,7 @@ magium:
         client_id: <value>
         client_secret: <value>
         enabled: yes
+        directory: <common or directory ID>
 YAML;
 
 $obj = new YamlConfigurationRepository(trim($yaml));
@@ -178,7 +196,8 @@ Pretty much the same, but rather than using the `YamlConfigurationRepository` yo
                 "ad": {
                     "client_id": "<value>"
                     "client_secret": "<value>",
-                    "enabled": "yes"
+                    "enabled": "yes",
+                    "directory": "<common or directory ID>"
                 }
             }
         }
@@ -201,6 +220,7 @@ $ini = <<<INI
 ad[client_id] = <value>
 ad[client_srcret] = <value>
 ad[enabled] = yes
+ad[directory] = <common or directory ID>
 INI;
 
 $obj = new IniConfigurationRepository(trim($ini));
