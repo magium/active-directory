@@ -19,7 +19,7 @@ First, watch the [installation video on YouTube](https://www.youtube.com/watch?v
 
 Anywhere in your application that requires authentication you can provide this code (properly architected, not cut and paste, in other words):
 
-```
+``` php
 $ad = new \Magium\ActiveDirectory\ActiveDirectory(
     $configuration, // shown later
     $psr7CompatibleRequest
@@ -36,7 +36,7 @@ The `authenticate()` method will do 1 of 3 things.
 
 If you want to log out all you do is:
 
-```
+``` php
 $ad->forget();
 ```
 
@@ -44,7 +44,7 @@ Not that this only purges the AD entity from the session, it does not do any oth
 
 Clearly this library is not intended to be your only means of session management, though, for simple applications, you could use it that way.  Most likely you will want to take the data retrieved from AD and link it to a local account.  The `Entity` class has 3 defined getters to help you do this mapping:
 
-```
+``` php
 echo $entity->getName() . '<Br />'; // The user's name
 echo $entity->getOid() . '<Br />'; //The user's AD object ID, useful for mapping to a local user obhect
 echo $entity->getPreferredUsername() . '<Br />'; // The user's username, usually an email address.
@@ -68,8 +68,7 @@ The base configuration is managed by the [Magium Configuration Manager](https://
 
 The configuration manager provides the means to manage and deploy settings at runtime in both a CLI and (eventually) a web-based interface.  If you are using the configuration manager you need to get an instance of the configuration factory, which provides an instance of the manager, which provides the configuration object.  The `ActiveDirectory` adapter requires that configuration object.
 
-```
-
+``` php
 // Convert to PSR7 request object
 $request = \Zend\Psr7Bridge\Psr7ServerRequest::fromZend(
     new \Zend\Http\PhpEnvironment\Request()
@@ -105,8 +104,6 @@ authentication/ad/return_url
 
 authentication/ad/remap_https (default: 1)
         (Should the system remap HTTP-based URLs to HTTPS.  Azure Active Directory generally will not redirect to a non-secure URL.  Enabling this setting protects against that.)
-
-
 ```
 
 You will need to provide those two values for the configuration:
@@ -134,8 +131,7 @@ And you should be good to go.
 
 Now, I know the MCM is new and you probably aren't using it.  That's why I provided a way for you configure the adapter without using the full-blown MCM.  You can use the `Magium\Configuration\Config\Repository\ArrayConfigurationRepository` class to provide a raw array that will be mapped to the two configuration settings `magium/ad/client_id` and `magium/ad/client_secret`
 
-```
-
+``` php
 session_start();
 
 $config = [
@@ -167,7 +163,7 @@ echo $entity->getPreferredUsername() . '<Br />';
 
 Pretty much the same, but rather than using the `ArrayConfigurationRepository` you will use the `YamlConfigurationRepository`.  It's pretty similar:
 
-```
+``` php
 $yaml = <<<YAML
 magium:
     ad:
@@ -189,12 +185,12 @@ $entity = $ad->authenticate();
 
 Pretty much the same, but rather than using the `YamlConfigurationRepository` you will use the `JsonConfigurationRepository`.  It's pretty similar:
 
-```
+``` php
  $json = <<<JSON
         {
             "magium": {
                 "ad": {
-                    "client_id": "<value>"
+                    "client_id": "<value>",
                     "client_secret": "<value>",
                     "enabled": "yes",
                     "directory": "<common or directory ID>"
@@ -214,7 +210,7 @@ $entity = $ad->authenticate();
 
 Pretty much the same, but rather than using the `JsonConfigurationRepository` you will use the `IniConfigurationRepository`.  It's pretty similar:
 
-```
+``` php
 $ini = <<<INI
 [magium]
 ad[client_id] = <value>
