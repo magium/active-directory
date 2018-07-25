@@ -135,7 +135,7 @@ Now, I know the MCM is new and you probably aren't using it.  That's why I provi
 session_start();
 
 $config = [
-    'magium' => [
+    'authentication' => [
         'ad' => [
             'client_id' => '<my client id>',
             'client_secret' => '<my client secret>',
@@ -165,7 +165,7 @@ Pretty much the same, but rather than using the `ArrayConfigurationRepository` y
 
 ``` php
 $yaml = <<<YAML
-magium:
+authentication:
     ad:
         client_id: <value>
         client_secret: <value>
@@ -188,7 +188,7 @@ Pretty much the same, but rather than using the `YamlConfigurationRepository` yo
 ``` php
  $json = <<<JSON
         {
-            "magium": {
+            "authentication": {
                 "ad": {
                     "client_id": "<value>",
                     "client_secret": "<value>",
@@ -212,7 +212,7 @@ Pretty much the same, but rather than using the `JsonConfigurationRepository` yo
 
 ``` php
 $ini = <<<INI
-[magium]
+[authentication]
 ad[client_id] = <value>
 ad[client_srcret] = <value>
 ad[enabled] = yes
