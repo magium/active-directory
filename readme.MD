@@ -11,7 +11,7 @@ There are two purposes (well, three) for library.
 2. Provide a launching pad for other third-party integrations to Microsoft Azure Active Directory, such as Magento, Drupal, Oro, or whatever.
 3. (provide libraries that use other Magium libraries so people can see how awesome all the Magium stuff is)
 
-First, watch the [installation video on YouTube](https://www.youtube.com/watch?v=9FupzL2XsqA).  It shows you how to create an application in Azure Active Directory.
+First, watch the [installation video on YouTube](https://www.youtube.com/watch?v=9FupzL2XsqA).  It shows you how to create an application in Azure Active Directory.  A big part of the installation is going to the Microsoft Application Console at [https://apps.dev.microsoft.com](https://apps.dev.microsoft.com).  That is where you are going to get all of your authentication keys and such.
 
 **Note** Azure will not redirect from a secure URL (i.e. their login page) to an unsecure page (i.e. your page).  No HTTPS to HTTP in other words.  In yet other words, if you use Azure you will need to also use HTTPS.  Though there are worse things in the world... like *not* using HTTPS.
 
