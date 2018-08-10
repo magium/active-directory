@@ -9,7 +9,6 @@ use Magium\ActiveDirectory\Delegates\Receive;
 use Magium\Configuration\Config\Repository\ConfigInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Http\Header\Location;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\Psr7Bridge\Psr7Response;
 use Zend\Uri\Uri;
