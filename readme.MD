@@ -1,3 +1,6 @@
+# Package is deprecated
+
+My apologies to all.  I do not have time to maintain this code.  If you are interested in maintaining this code feel free to fork it or create a derivative work.  I would direct people there frmo here.
 
 # Magium Active Directory Integration
 
